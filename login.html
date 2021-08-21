@@ -13,6 +13,7 @@
   <!-- Bootstrap core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <link href="css/login.css" rel="stylesheet">
   <style>
     html, body{
       height: 100%;
@@ -39,12 +40,23 @@
 
 <body class="text-center">
   <div class="container p-5">
-    <div class="alert alert-danger" role="alert" style="position: relative; width:auto; top: 0;">
-      <h4 class="alert-heading">¡A trabajar! :)</h4>
-      <p>Esta sección corresponde a: Entrega 1 (Fecha de entrega: 08/08/2021).</p>
-      <hr>
-      <p class="mb-0">Para saber qué debes hacer, fijate en la actividad en CREA correspondiente a esta entrega.</p>
-    </div>
+    <div id="formContent">
+      <!-- Tabs Titles -->
+      <h2 class="active"> Sign In </h2>
+      <h2 class="inactive underlineHover">Sign Up </h2>
+
+      <!-- Login Form -->
+      <form action="">
+        <input type="text" id="user" class="fadeIn second" name="user" placeholder="Usuario" required>
+        <input type="password" id="pass" class="fadeIn third" name="pass" placeholder="Contraseña" required>
+         <!--Se puede hacer con addEeventListener, o se puede usar  onclick = "validarDatos()"-->
+        <input type="button"  id="submit" class="fadeIn fourth" value="Ingresar">
+      </form>
+  
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <a class="underlineHover" href="#">Te olvidaste la contraseña?</a>
+      </div>
   </div>
 
   <script src="js/init.js"></script>
