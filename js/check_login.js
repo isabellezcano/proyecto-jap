@@ -12,4 +12,6 @@ document.addEventListener("DOMContentLoaded", function(e){
     document.getElementById('desconectar').addEventListener('click', function(e){
         desconectar();
     });
+
+    document.getElementById("nombreUsuario").textContent = localStorage.getItem("usuario");
 })

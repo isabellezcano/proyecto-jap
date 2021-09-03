@@ -1,7 +1,7 @@
 const ORDER_ASC_BY_NAME = "AZ";
 const ORDER_DESC_BY_NAME = "ZA";
 const ORDER_BY_PROD_PRICE = "Precio";
-const ORDER_INV_BY_PROD_PRICE = "PrecioInverso";
+const ORDER_INV_BY_PROD_PRICE = "PrecioInverso";  //le gregue el inverso que no estaba en categorias
 var currentProductsArray = [];
 var currentSortCriteria = undefined;
 var minPrice = undefined;
@@ -31,7 +31,7 @@ function sortProducts(criteria, array){
             if ( bCost < bCost ){ return 1; }
             return 0;
         });
-    }else if (criteria === ORDER_INV_BY_PROD_PRICE){
+    }else if (criteria === ORDER_INV_BY_PROD_PRICE){  //aca esta el inverso
         result = array.sort(function(a, b) {
             let aCost = parseInt(a.cost);
             let bCost = parseInt(b.cost);
@@ -51,8 +51,8 @@ function showProductsList(){
     for(let i = 0; i < currentProductsArray.length; i++){
         let product = currentProductsArray[i];
 
-        if (((minPrice == undefined) || (minPrice != undefined && parseInt(products.cost) >= minPrice)) &&
-            ((maxPrice == undefined) || (maxPrice != undefined && parseInt(products.cost) <= maxPrice))){
+        if (((minPrice == undefined) || (minPrice != undefined && parseInt(product.cost) >= minPrice)) &&
+            ((maxPrice == undefined) || (maxPrice != undefined && parseInt(product.cost) <= maxPrice))){
 
             htmlContentToAppend += `
             <a href="product-info.html" class="list-group-item list-group-item-action">
@@ -128,13 +128,14 @@ document.addEventListener("DOMContentLoaded", function(e){
     });
 
     document.getElementById("rangeFilterPrice").addEventListener("click", function(){
+       
         //Obtengo el mínimo y máximo de los intervalos para filtrar por cantidad
         //de productos por categoría.
-        minCount = document.getElementById("rangeFilterPriceMin").value;
-        maxCount = document.getElementById("rangeFilterPriceMax").value;
+        minPrice = document.getElementById("rangeFilterPriceMin").value;
+        maxPrice = document.getElementById("rangeFilterPriceMax").value;
 
         if ((minPrice != undefined) && (minPrice != "") && (parseInt(minPrice)) >= 0){
-            minPrice = parseInt(minPrice);
+            minPrice = parseInt(minPrice);;
         }
         else{
             minPrice = undefined;
@@ -149,4 +150,8 @@ document.addEventListener("DOMContentLoaded", function(e){
 
         showProductsList();
     });
+    
 });
+
+
+
