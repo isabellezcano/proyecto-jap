@@ -12,6 +12,6 @@ document.addEventListener("DOMContentLoaded", function(e){
     document.getElementById('desconectar').addEventListener('click', function(e){
         desconectar();
     });
-
+// Entrega 2 parte 3
     document.getElementById("nombreUsuario").textContent = localStorage.getItem("usuario");
 })

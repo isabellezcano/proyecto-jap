@@ -1,5 +1,6 @@
 const ORDER_ASC_BY_NAME = "AZ";
 const ORDER_DESC_BY_NAME = "ZA";
+const ORDER_BY_PROD_COUNT = "Cant.";
 const ORDER_BY_PROD_PRICE = "Precio";
 const ORDER_INV_BY_PROD_PRICE = "PrecioInverso";  //le gregue el inverso que no estaba en categorias
 var currentProductsArray = [];
@@ -7,10 +8,11 @@ var currentSortCriteria = undefined;
 var minPrice = undefined;
 var maxPrice = undefined;
 
+
+//Entrega 2 parte 1
 function sortProducts(criteria, array){
     let result = [];
-    if (criteria === ORDER_ASC_BY_NAME)
-    {
+    if (criteria === ORDER_ASC_BY_NAME){
         result = array.sort(function(a, b) {
             if ( a.name < b.name ){ return -1; }
             if ( a.name > b.name ){ return 1; }
@@ -20,6 +22,15 @@ function sortProducts(criteria, array){
         result = array.sort(function(a, b) {
             if ( a.name > b.name ){ return -1; }
             if ( a.name < b.name ){ return 1; }
+            return 0;
+        });
+    }else if (criteria === ORDER_BY_PROD_COUNT){
+        result = array.sort(function(a, b) {
+            let aCount = parseInt(a.soldCount);
+            let bCount = parseInt(b.soldCount);
+
+            if ( aCount > bCount ){ return -1; }
+            if ( aCount < bCount ){ return 1; }
             return 0;
         });
     }else if (criteria === ORDER_BY_PROD_PRICE){
@@ -109,6 +120,10 @@ document.addEventListener("DOMContentLoaded", function(e){
         sortAndShowProducts(ORDER_DESC_BY_NAME);
     });
 
+    document.getElementById("sortByCount").addEventListener("click", function(){
+        sortAndShowProducts(ORDER_BY_PROD_COUNT);
+    });
+
     document.getElementById("sortByPrice").addEventListener("click", function(){
         sortAndShowProducts(ORDER_BY_PROD_PRICE);
     });
@@ -117,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         sortAndShowProducts(ORDER_INV_BY_PROD_PRICE);
     });
 
+    // El clear
     document.getElementById("clearRangeFilter").addEventListener("click", function(){
         document.getElementById("rangeFilterPriceMin").value = "";
         document.getElementById("rangeFilterPriceMax").value = "";
@@ -126,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function(e){
 
         showProductsList();
     });
-
+//Entrega 2 parte 2
     document.getElementById("rangeFilterPrice").addEventListener("click", function(){
        
         //Obtengo el mínimo y máximo de los intervalos para filtrar por cantidad
