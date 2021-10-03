@@ -6,6 +6,7 @@ var currentProductsArray = [];
 var currentSortCriteria = undefined;
 var minPrice = undefined;
 var maxPrice = undefined;
+var stringBusqueda = undefined;
 
 function sortProducts(criteria, array){
     let result = [];
@@ -50,9 +51,12 @@ function showProductsList(){
     let htmlContentToAppend = "";
     for(let i = 0; i < currentProductsArray.length; i++){
         let product = currentProductsArray[i];
+        let nombreProducto = product.name.toLowerCase();
+        let descripcionProducto = product.description.toLowerCase();
 
         if (((minPrice == undefined) || (minPrice != undefined && parseInt(product.cost) >= minPrice)) &&
-            ((maxPrice == undefined) || (maxPrice != undefined && parseInt(product.cost) <= maxPrice))){
+            ((maxPrice == undefined) || (maxPrice != undefined && parseInt(product.cost) <= maxPrice)) &&
+            (stringBusqueda == undefined) || ((nombreProducto.includes(stringBusqueda)) || (descripcionProducto.includes(stringBusqueda)))){
 
             htmlContentToAppend += `
             <a href="product-info.html" class="group-item list-group-item-action">
@@ -150,8 +154,15 @@ document.addEventListener("DOMContentLoaded", function(e){
 
         showProductsList();
     });
+
+    let buscador = document.getElementById('busquedaProductos')
+    buscador.addEventListener('keyup', (e) => buscar(e))
+    buscador.addEventListener('search', (e) => buscar(e))
     
 });
 
-
-
+//funcion que dispara la busqueda al ser puesta en un evento
+function buscar(e) {
+    stringBusqueda = e.target.value.toLowerCase();
+    showProductsList();
+}

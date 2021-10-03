@@ -8,6 +8,7 @@ var fechaA = new Date();
 var dd = fechaA.getDate();
 var mm = fechaA.getMonth() + 1; //January is 0!
 var yyyy = fechaA.getFullYear();
+var divRelacionados;
 
 if (dd < 10) {
   dd = '0' + dd;
@@ -75,26 +76,39 @@ function showProducts(){
 
         <div class="card">
             <h1 class="card-title">${product.name}</h1>
-            <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
-                <div class="row py-3 shadow-5">
-                    <div class="col-12 mb-1">
-                        <div class="lightbox">
-                            <img src="img/prod1.jpg" class="ecommerce-gallery-main-img active w-100"/>
-                        </div>
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="img/prod1.jpg" class="d-block w-100" alt="esto es una imagen, en un rato carga">
                     </div>
-                    <div class="col-3 mt-1">
-                        <img src="img/prod1_1.jpg" data-mdb-img="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14a.jpg" class="active w-100"/>
+                    <div class="carousel-item">
+                        <img src="img/prod1_1.jpg" class="d-block w-100" alt="esto es una imagen, en un rato carga">
                     </div>
-                    <div class="col-3 mt-1">
-                        <img src="img/prod1_2.jpg" data-mdb-img="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" class="w-100"/>
+                    <div class="carousel-item">
+                         <img src="img/prod1_2.jpg" class="d-block w-100" alt="esto es una imagen, en un rato carga">
                     </div>
-                    <div class="col-3 mt-1"> 
-                        <img src="img/prod1_3.jpg" data-mdb-img="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg" class="w-100"/>
+                    <div class="carousel-item">
+                         <img src="img/prod1_3.jpg" class="d-block w-100" alt="esto es una imagen, en un rato carga">
                     </div>
-                    <div class="col-3 mt-1">
-                        <img src="img/prod1_4.jpg" data-mdb-img="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg" class="w-100"/>
+                    <div class="carousel-item">
+                         <img src="img/prod1_4.jpg" class="d-block w-100" alt="esto es una imagen, en un rato carga">
                     </div>
                 </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
             <div class="card-body">
                 <h5>${product.currency + product.cost}</h5>              
@@ -122,7 +136,7 @@ function obtenerValores(){
 var comentarioA = document.getElementById("comentarioNuevo");
 var scoreA = document.getElementById("scoreNuevo");
 
-function crearComentario( comentarioA, fechaA){
+function crearComentario (comentarioA, fechaA){
 
     let i = lista.length;
     let newElement = 
@@ -155,11 +169,6 @@ function crearComentario( comentarioA, fechaA){
     
     document.getElementById("comentarios").innerHTML += newElement;
 
-    // let elementoNuevo = document.getElementById("comentarios").children[document.getElementById("comentarios").children.length-1]
-    // let rating = elementoNuevo.getElementsByClassName("rating")[0].getElementById("")
-
-    // document.getElementById(`estrellas-${i}`).getElementsByClassName("star-" + 2).checked = true;
-    // contenedor.innerHTML += newElement;
 }
 
 let crear = document.getElementById("crear");
@@ -169,19 +178,57 @@ crear.addEventListener('click', ()=>{
    // crearComentario();
 });
 
+
+let relacionados = []
+function productosRelacionados(){
+    getJSONData(PRODUCT_INFO_URL).then(function(resultObj){
+        if (resultObj.status === "ok"){
+            relacionados = resultObj.data;
+            productRelated = relacionados.relatedProducts;
+            getJSONData(PRODUCTS_URL).then(function(resultObj) {
+                if (resultObj.status === "ok"){
+                    productoR = resultObj.data;
+                    let  producto = productoR.name
+                    let htmlContentToAppend = "";
+                    for (let indice of productRelated) {
+                        htmlContentToAppend += 
+                        `
+                        <div class="card">
+                            <h1 class="card-title">${productoR[indice].name}</h1>
+                            <div class="card-body">
+                                <h5>${productoR[indice].currency} ${productoR[indice].cost}</h5>              
+                                <p class="card-text">${productoR[indice].description}</p>               
+                                <p>${productoR[indice].soldCount}<p></p>        
+                        </div>
+                        `;
+                    }
+                    divRelacionados.innerHTML = htmlContentToAppend
+                }
+            })
+
+        }
+    })
+}
+
 document.addEventListener("DOMContentLoaded", function(e){
+ 
     getJSONData(PRODUCT_INFO_URL).then(function(resultObj){
         if (resultObj.status === "ok"){
             informacionProducto = resultObj.data
-            console.log(resultObj.data)
-            showProducts()
+            console.log(resultObj.data);
+            showProducts();
         }
     });
      getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function(resultObj){
         if (resultObj.status === "ok"){
             lista = resultObj.data
-            console.log(resultObj.data)
-            showComments()
+            console.log(resultObj.data);
+            showComments();
         }
     });
+
+    divRelacionados = document.getElementById("productos-relacionados");
+    productosRelacionados();
+
+    //agregar imagen y la pinta, capaz que usar row. chquear los divs en el html
 });

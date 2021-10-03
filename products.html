@@ -21,14 +21,13 @@
         <a class="py-2 d-none d-md-inline-block" href="categories.html">Categorías</a>
         <a class="py-2 d-none d-md-inline-block" href="products.html">Productos</a>
         <a class="py-2 d-none d-md-inline-block" href="sell.html">Vender</a>
-        <a class="py-2 d-none d-md-inline-block" href="cart.html">Mi carrito</a>
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="nombreUsuario" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span id="nombreUsuario">Usuario</span>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Mi carrito</a>
-            <a class="dropdown-item" href="#">Perfil</a>
+            <a class="dropdown-item" href="cart.html">Mi carrito</a>
+            <a class="dropdown-item" href="my-profile.html">Perfil</a>
             <a class="dropdown-item" id="desconectar"> Desconectarse</a>
           </div>
         </div>
@@ -39,10 +38,19 @@
           <h2>Productos</h2>
           <p class="lead">Verás aquí todos los productos del sitio.</p>
       </div>
+      
       <div class="container">
           <div class="row">
               <div class="col text-right">
-                  <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
+                <!-- boton de search -->
+                <div class="input-group mb-3 w-50"> 
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" >Search</span>
+                  </div>
+                  <input type="search" id="busquedaProductos" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+
+                  <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">           
                       <label class="btn btn-light active" id="sortAsc" >
                           <input type="radio" name="options" autocomplete="off" checked>A-Z
                       </label>

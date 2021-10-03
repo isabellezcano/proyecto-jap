@@ -4,7 +4,7 @@ function onLoad() { // busca datos de google de auth 2.0
     });
 }
 
-function singOut() {
+function singOut() {  // desconectar
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.singOut().then(function () {
         console.log('User signed out')
@@ -18,7 +18,13 @@ function onSingIn(googleUser) {
     localStorage.setItem("usuario", profile.getName());
     localStorage.setItem("user_img", profile.getImageUrl());
 
-    back_to_last_url(); /// esto esta mal
+    back_to_last_url(); 
+}
+
+function login_eCommerse(user,pass){
+    localStorage.setItem("login_type","eMercado");
+    localStorage.setItem("usuario", user.trim());
+    localStorage.setItem("password", pass.trim());
 }
 
 function validarDatos(){
@@ -36,9 +42,9 @@ function validarDatos(){
 }
 document.addEventListener("DOMContentLoaded", function(e){
 
-if (localStorage.getItem("usuario")){
+    if (localStorage.getItem("usuario")){
     location.href = "index.html";
-}
+    }
 
     document.getElementById("submit").addEventListener("click", function(event){
         validarDatos();
